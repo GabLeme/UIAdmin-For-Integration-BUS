@@ -1,0 +1,22 @@
+<div class="card text-center">
+  <div class="options text-right">
+    <div class="dropdown">
+      <img src="../../../../assets/more-1.png" class="img-options" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" *ngIf="status == false" (click)="handleStart()">Iniciar</a>
+        <a class="dropdown-item" *ngIf="status == true" (click)="handleStop()">Parar</a>
+        <a class="dropdown-item" (click)="handleDelete()">Deletar</a>
+        <!-- <a class="dropdown-item" *ngIf="status == true" (click)="handleRestart()">Reiniciar</a> -->
+      </div>
+    </div>
+  </div>
+  <div class="img-top" style="cursor: pointer;" (click)="handleApisOnServer()">
+    <img class="card-img-top" src="../../../../assets/server-1.png" alt="srv">
+  </div>
+  <div class="card-body">
+    <h5 class="card-title" style="font-size: 12px; font-weight: bold;">{{name}}</h5>
+    <p class="card-text">Status: {{status == true ? 'Online' : 'Offline'}}</p>
+    <p class="card-text">ID do Processo: {{processId}}</p>
+  </div>
+</div>

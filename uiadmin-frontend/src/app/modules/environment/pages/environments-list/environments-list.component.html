@@ -1,0 +1,77 @@
+<div class="row mt-2">
+    <div class="col-sm-12">
+        <div class="alert alert-info" role="alert" *ngIf="envWasCreated">
+            {{message}}
+          </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-sm">
+        <button type="button" class="btn btn-secondary btn-sm" (click)="createEnv()">Adicionar Ambiente</button>
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col-sm-12">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Ações</th>
+                        <th>Nome</th>
+                        <th>BasePath</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let e of envs">
+                        <th>
+                            <div class="delete" (click)="deleteEnvironment(e)"  style="cursor: pointer">
+                                <img src="../../../../../assets/rubbish.png">
+                            </div>
+                            <div class="edit" (click)="handleUpdate(e)" style="cursor: pointer">
+                                <img src="../../../../../assets/edit.png">
+                            </div>
+                        </th>
+                        <th>{{e.name}}</th>
+                        <th>{{e.basePath}}</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<jw-modal id="env-add-modal">
+    <form>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Nome</label>
+          <input type="email" class="form-control" 
+          [(ngModel)]="envName" name="a"
+          id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ex: XPTO - Dev">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Base Path</label>
+            <input type="email" class="form-control"
+            [(ngModel)]="basePath" name="ab"
+            id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ex: localhost:4414/apiv2/">
+          </div>  
+          <div class="row">
+            <div class="form-group">
+                <button type="button" *ngIf="event ==='create'" (click)="handleCreate()"
+                 class="btn btn-secondary btn-sm">Salvar</button>
+            </div>
+            <div class="form-group">
+                <button type="button" *ngIf="event ==='update'" (click)="updateEnv()"
+                 class="btn btn-secondary btn-sm">Salvar</button>
+            </div>
+            <div class="form-group" style="padding-left: 10px !important">
+                <button type="button" class="btn btn-danger btn-sm"
+                    (click)="closeModal('env-add-modal')">Cancelar</button>
+            </div>
+        </div>
+        </form>
+</jw-modal>

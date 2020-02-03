@@ -1,0 +1,95 @@
+<div class="d-flex" id="wrapper">
+
+    <div class="sidenav border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading">
+            <span class="title-one">BUS<span class="title-two">.JS</span></span>
+            <p class="subtitle">Integration Bus Admin UI</p>
+        </div>
+        <div class="list-group list-group-flush">
+            <button class="dropdown-btn">Configurações
+                <!-- <i class="fa fa-caret-down"></i> -->
+                <img class="arrow-down" src="../../../../assets/up-and-down.png">
+            </button>
+            <div class="dropdown-container">
+                <a (click)="handleLinkUser()">
+                    <img src="../../../../assets/account.png" class="storageicon">
+                    Usuários</a>
+
+                <a (click)="handleLinkEnv()">
+                    <img src="../../../../assets/ambientes.png" class="storageicon">
+                    Ambientes</a>
+            </div>
+
+            <button class="dropdown-btn">Ambientes
+                <!-- <i class="fa fa-caret-down"></i> -->
+                <img class="arrow-down" src="../../../../assets/up-and-down.png">
+            </button>
+            <div class="dropdown-container">
+                <div class="environments" *ngFor="let e of environmentsList;">
+                    <a (click)="handlerLink(e)">
+                        <img src="../../../../assets/cloud.png" class="storageicon">
+                        {{e.name}}</a>
+                </div>
+            </div>
+            <button class="dropdown-btn">Troubleshoot
+                <!-- <i class="fa fa-caret-down"></i> -->
+                <img class="arrow-down" src="../../../../assets/up-and-down.png">
+            </button>
+            <div class="dropdown-container">
+                <a (click)="handleLinkUser()">
+                    <img src="../../../../assets/account.png" class="storageicon">
+                    Erros Comuns</a>
+            </div>
+            <a><img src="../../../../assets/logout.png" class="storageicon"> Logout
+                <!-- <i class="fa fa-caret-down"></i> -->
+                <!-- <img class="arrow-down" src="../../../../assets/up-and-down.png"> -->
+            </a>
+        </div>
+    </div>
+    <div id="page-content-wrapper">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+            <img src="../../../../assets/list.png" class="listicon" (click)="hideMenu($event)" id="menu-toggle"
+                style="cursor: pointer;">
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+                </ul> -->
+            </div>
+        </nav>
+        <div class="container-fluid">
+            
+            <div class="row">
+                <div class="col-sm-12">
+                    <span class="back-text" (click)="previousRoute()">
+                        <img src="../../../../assets/back.png" class="back-icon">
+                        Volte a página anterior</span>
+                </div>
+            </div>
+            <ng-content></ng-content>
+        </div>
+    </div>
+</div>

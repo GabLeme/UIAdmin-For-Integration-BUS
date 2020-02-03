@@ -1,0 +1,22 @@
+<div class="card text-center">
+    <div class="options text-right">
+      <div class="dropdown">
+        <img src="../../../../../assets/more-1.png" class="img-options" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" (click)="handleStart()">Iniciar</a>
+          <a class="dropdown-item" (click)="handleStop()">Parar</a>
+          <a class="dropdown-item" (click)="handleDelete()">Deletar</a>
+          <!-- <a class="dropdown-item" *ngIf="status == true" (click)="handleRestart()">Reiniciar</a> -->
+        </div>
+      </div>
+    </div>
+    <div class="img-top">
+      <img *ngIf="itemType === 'api'" class="card-img-top" src="../../../../assets/api.png" alt="srv">
+      <img *ngIf="itemType === 'lib'" class="card-img-top" src="../../../../assets/library.png" alt="srv">
+      <img *ngIf="itemType === 'app'" class="card-img-top" src="../../../../assets/process.png" alt="srv">
+    </div>
+    <div class="card-body">
+      <h5 class="card-title" style="font-size: 11px;">{{name}}</h5>
+    </div>
+  </div>

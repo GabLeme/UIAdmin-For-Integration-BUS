@@ -1,0 +1,83 @@
+<!-- configs area -->
+<div class="row mt-2">
+    <div class="col-sm-12">
+
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-sm">
+        <button type="button" class="btn btn-secondary btn-sm" (click)="openModal('user-add-modal')">Adicionar
+            Usuário</button>
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col-sm-12">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Ações</th>
+                        <th>Email</th>
+                        <th>Data de criação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let u of users">
+                        <th>
+                            <div class="delete">
+                                <img src="../../../../../assets/rubbish.png">
+                            </div>
+                            <div class="edit" (click)="openModal('user-edit-modal')" style="cursor: pointer">
+                                <img src="../../../../../assets/edit.png">
+                            </div>
+                        </th>
+                        <th>{{u.email}}</th>
+                        <th>{{u.createdAt | date: 'dd/MM/yyyy'}}</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<jw-modal id="user-edit-modal">
+</jw-modal>
+
+<jw-modal id="user-add-modal">
+    <form>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Endereço de e-mail</label>
+            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+        </div>
+        <div class="form-group">
+            <mat-form-field>
+                <mat-label>Ambientes</mat-label>
+                <mat-select [formControl]="envs" multiple>
+                    <mat-option (onSelectionChange)="removePermission($event)" *ngFor="let env of envList" [value]="env.name + '@' + env._id">{{env.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="form-group" *ngFor="let selectedEnv of selectedEnvs">
+            <label for="exampleFormControlSelect1">Permissão: {{selectedEnv.split('@')[0]}}</label>
+            <select class="form-control" [formControl]="permissions">
+                <option [value]="'auditor' + '#' + selectedEnv.split('@')[1]">Auditor</option>
+                <option [value]="'gerente' + '#' + selectedEnv.split('@')[1]">Gerente</option>
+                <option [value]="'desenvolvedor' + '#' + selectedEnv.split('@')[1]">Desenvolvedor</option>
+            </select>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <button type="button" (click)="handleCreate()"
+                 class="btn btn-secondary btn-sm">Salvar</button>
+            </div>
+            <div class="form-group" style="padding-left: 10px !important">
+                <button type="button" class="btn btn-danger btn-sm"
+                    (click)="closeModal('user-add-modal')">Cancelar</button>
+            </div>
+        </div>
+    </form>
+</jw-modal>

@@ -1,0 +1,51 @@
+<div class="row mt-2">
+    <div class="col-sm-4">
+        <p class="svInfo">QueueManager: {{serverInfo.defaultQueueManager}}</p>
+    </div>
+
+    <div class="col-sm-4">
+        <p class="svInfo">Debug Port: {{serverInfo.jvmDebugPort}}</p>
+    </div>
+
+    <div class="col-sm-4">
+        <p class="svInfo">Nome: {{serverInfo.name}}</p>
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col-sm text-left">
+        <button type="button" class="btn btn-secondary btn-sm">Limpar Servidor</button>
+    </div>
+</div>
+
+<div class="row mt-2">
+
+    <div class="container">
+        <!-- <h2>Deploys</h2> -->
+
+        <mat-tab-group>
+            <mat-tab label="Rest APIs">
+                <div class="row mt-2">
+                    <div class="col-sm-3 mt-2" *ngFor="let api of apis">
+                        <app-apis [name]="api.name" itemType="api"></app-apis>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="Batchs">
+                <div class="row mt-2">
+                    <div class="col-sm-3 mt-2" *ngFor="let app of apps">
+                        <app-apis [name]="app.name" itemType="app"></app-apis>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="Libraries">
+                <div class="row mt-2" >
+                    <div class="col-sm-3 mt-2" *ngFor="let lib of libs">
+                        <app-apis [name]="lib.name" itemType="lib"></app-apis>
+                    </div>
+                </div>
+            </mat-tab>
+
+        </mat-tab-group>
+    </div>
+</div>

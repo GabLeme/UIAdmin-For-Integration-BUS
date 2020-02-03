@@ -1,0 +1,47 @@
+<div class="row mt-2">
+    <div class="col-sm text-left">
+        <button type="button" class="btn btn-secondary btn-sm" (click)="openModal('add-server-modal')">Criar
+            Servidor</button>
+    </div>
+</div>
+
+<!-- servers area -->
+<div class="row mt-3">
+    <div class="col-sm-3 mt-2" *ngFor="let s of servers">
+        <app-server [name]="s.name" [processId]="s.active.processId" [status]="s.active.isRunning">
+        </app-server>
+    </div>
+</div>
+
+
+
+<jw-modal id="add-server-modal">
+    <form>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Server Name</label>
+            <input type="text" class="form-control" 
+            [(ngModel)]="serverName"
+            name="server"
+            id="exampleInputEmail1" aria-describedby="emailHelp"
+                placeholder="EX: SRVDEV01">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">MQ Name</label>
+            <input type="text"
+            [(ngModel)]="mqName"
+            name="server"
+            class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                placeholder="EX: QMDEV01">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Debug Port</label>
+            <input type="number" 
+            [(ngModel)]="debugPort"
+            name="server"
+            class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                placeholder="EX: 7804">
+        </div>
+
+        <button type="submit" class="btn btn-secondary btn-sm" (click)="handleCreateServer()">Criar</button>
+    </form>
+</jw-modal>
