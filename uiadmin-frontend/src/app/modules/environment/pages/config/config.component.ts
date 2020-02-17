@@ -29,6 +29,7 @@ export class ConfigComponent implements OnInit {
       const envId = params['id'];
       this.env_id = params['id'];
       this.apisService.getEnvironmentConfig(envId).subscribe((config) => {
+        // console.log((c))
         this.servers = JSON.parse(config['servers'])['children'];
         this.systemInfo = config['systemInfo'];
         //console.log(this.servers)
