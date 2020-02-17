@@ -6,6 +6,7 @@ const Cors                  = require('cors');
 const multer                = require('multer');
 const fileUpload            = require('express-fileupload')
 
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(fileUpload({

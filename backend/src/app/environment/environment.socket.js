@@ -1,10 +1,11 @@
-const SSH = require('simple-ssh');
+const SSH                       = require('simple-ssh');
 const EnvironmentSchema         = require('./environment.schema');
 const Log                       = require('bunyan').createLogger({ name: "EnvironmentSocket" })
 const async                     = require('async');
 const request                   = require('request');
 
 module.exports.machineHealthCheck = (environmentId, socket) => {
+    console.log('Init Socket Controller')
     async.waterfall([
         (cb) => {
             EnvironmentSchema.findById(environmentId, (err, environment) => {
@@ -13,31 +14,31 @@ module.exports.machineHealthCheck = (environmentId, socket) => {
             })
         },
         (environment) => {
+            environment = JSON.parse(JSON.stringify(environment));
             const host = environment.basePath
                             .split('//')[1]
-                            .split('/')[0];
-            const sshClient = new SSH({
+                            .split('/')[0]
+                            .split(':')[0];
+            const ssh = new SSH({
                 host,
                 user: environment.user,
                 pass: environment.pass
             })
 
-            sshClient
-                .exec("top -b -n1 | grep Cpu | sed -r 's@.+:\s([0-9\.]+).+@\1@' && top -b -n1 | grep Mem | sed -r 's@.+:\s([0-9\.]+).+@\1@'", {
-                    out: (sucess) => {
-                        socket.emit(sucess);
-                    },
-                    err: (err) => {
-                        socket.emit({
-                            data: 'error'
-                        })
-                    }
-                });
+            const command = "top -b -n1 | grep Cpu | sed -r 's@.+:\s([0-9\.]+).+@\1@' && top -b -n1 | grep Mem | sed -r 's@.+:\s([0-9\.]+).+@\1@'";
 
+            ssh.exec(command, {
+                out: (stdout) => {
+                    console.log("Sucess CMD", stdout)
+                    socket.emit('HealthCheck', {data: stdout, error: false})
+                },
+                err: (err) => {
+                    socket.emit('HealthCheck', {data: stdout, error: true})
+                }
+            })
+            .start();
         }
     ], (err) => {
-
-        })
+        socket.emit('HealthCheck', err)
+    })
 }
-
-this.machineHealthCheck('5e4afedb4f65a024044a6894')
