@@ -155,4 +155,22 @@ module.exports = app => {
             res.status(500).send(err);
         })
     })
+
+    app.post(`${consts.basePath}/deploy`, function(req, res) {
+        console.log(req.files); // the uploaded file object
+        var serverList = JSON.parse(JSON.stringify(req.query.servers))
+        serverList = JSON.parse(serverList);
+        console.log(`REALIZANDO DEPLOY `)
+        // console.log(req)
+        controller.deploy(serverList,req.files.bar_file.data)
+        .then((response)=>{
+            res.send(response)
+        })
+        .catch(function(rej) {
+            //here when you reject the promise
+            console.log('rejected');
+            res.statusCode = 400;
+            res.send(rej)
+        });
+    });
 }
