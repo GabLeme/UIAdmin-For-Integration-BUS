@@ -1,6 +1,5 @@
 const EnvironmentSchema         = require('./environment.schema');
-const Log                       = require('bunyan')
-                                    .createLogger({ name: "UserController" })
+const Log                       = require('bunyan').createLogger({ name: "UserController" })
 const async                     = require('async');
 const request                   = require('request');
 
@@ -482,3 +481,39 @@ module.exports.delete = (id) => {
     })
 }
 
+module.exports.deploy = (servers, file) => {
+    deploymentsCalls = []
+    servers.forEach(
+        (intServer) => {
+            console.log('ADICIONADO: ',intServer)
+            deploymentsCalls.push(
+                (response,cb) => {
+                    var requestSettings = {
+                        method: 'POST',
+                        url: `http://localhost:4415/apiv2/servers/${intServer}/deploy`,
+                        body: file,
+                        encoding: null,
+                        headers: {'Content-Type': 'application/json'}
+                    }
+                    request(requestSettings, (err, res, start) => {
+                        console.log('Status code:',res.statusCode)
+                        err = res.statusCode < 400 ? null : res;
+                        if(!err) cb(null,res);
+                        else cb(err,res);
+                    })
+                }
+            )
+        }
+    )
+    return new Promise((resolve, reject) => {
+        async.waterfall(
+            [(cb)=>{cb(null,null)},
+            deploymentsCalls,
+            (response,cb) => {resolve({data: 'ok',lastResponse: response})}
+            ].flat()
+            , 
+            (err) => {
+            reject(err);
+        })
+    })
+}
