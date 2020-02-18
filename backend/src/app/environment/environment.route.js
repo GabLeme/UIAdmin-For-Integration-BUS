@@ -160,9 +160,11 @@ module.exports = app => {
         
         var serverList = JSON.parse(JSON.stringify(req.query.servers))
         serverList = JSON.parse(serverList);
-        
+
         console.log(`BAR FILE: ${req.files.bar_file.name}`)
         console.log(`DEPLOYING IN: ${consts.basePath}/deploy/${req.params.id}`)
+        console.log();
+        
         
         controller.deploy(req.params.id,serverList,req.files.bar_file.data)
         .then((response)=>{
@@ -171,8 +173,7 @@ module.exports = app => {
         .catch(function(rej) {
             //here when you reject the promise
             console.log('rejected');
-            res.statusCode = 400;
-            res.send(rej)
+            res.status(400).send(rej);
         });
     });
 }

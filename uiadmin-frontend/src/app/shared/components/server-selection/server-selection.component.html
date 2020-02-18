@@ -1,0 +1,13 @@
+<ul>
+  <li *ngFor="let s of servers;">
+    <label>
+      <input
+        type="checkbox"
+        name="serverSelection"
+        id="{{ s.name }}"
+        (click)="handleServeSelection()"
+      />
+      {{ s.name }}
+    </label>
+  </li>
+</ul>
