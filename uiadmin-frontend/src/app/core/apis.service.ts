@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { endpoints } from '../../environments/endpoints';
 @Injectable({
   providedIn: 'root'
@@ -105,7 +105,15 @@ export class ApisService {
 
   deleteEnvironment(id) {
     return this.httpClient
-      .delete(`${endpoints.environments}${this.basePath}/environment/${id}`);    
+      .delete(`${endpoints.environments}${this.basePath}/environment/${id}`);
+  }
+//TODO: germano
+  deployBarFile(id,file,paramServers) {
+    const formData = new FormData();
+    formData.set('bar_file', file)
+    formData.set('marcos', 'uai')
+    return this.httpClient
+      .post(`http://localhost:3000/uiadmin/api/v1/deploy/${id}?servers=${paramServers}`,formData);
   }
 
 }

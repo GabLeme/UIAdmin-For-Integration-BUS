@@ -66,4 +66,5 @@ export class ServerComponent implements OnInit {
       this.configComponent.ngOnInit();
     })
   }
+
 }

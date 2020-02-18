@@ -156,21 +156,24 @@ module.exports = app => {
         })
     })
 
-    app.post(`${consts.basePath}/deploy`, function(req, res) {
-        console.log(req.files); // the uploaded file object
+    app.post(`${consts.basePath}/deploy/:id`, function(req, res) {
+        
         var serverList = JSON.parse(JSON.stringify(req.query.servers))
         serverList = JSON.parse(serverList);
-        console.log(`REALIZANDO DEPLOY `)
-        // console.log(req)
-        controller.deploy(serverList,req.files.bar_file.data)
+
+        console.log(`BAR FILE: ${req.files.bar_file.name}`)
+        console.log(`DEPLOYING IN: ${consts.basePath}/deploy/${req.params.id}`)
+        console.log();
+        
+        
+        controller.deploy(req.params.id,serverList,req.files.bar_file.data)
         .then((response)=>{
             res.send(response)
         })
         .catch(function(rej) {
             //here when you reject the promise
             console.log('rejected');
-            res.statusCode = 400;
-            res.send(rej)
+            res.status(400).send(rej);
         });
     });
 }
