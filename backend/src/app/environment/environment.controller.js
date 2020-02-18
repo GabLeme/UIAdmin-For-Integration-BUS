@@ -481,25 +481,27 @@ module.exports.delete = (id) => {
     })
 }
 
-module.exports.deploy = (servers, file) => {
+module.exports.deploy = (id,servers, file) => {
     deploymentsCalls = []
     servers.forEach(
         (intServer) => {
             console.log('ADICIONADO: ',intServer)
             deploymentsCalls.push(
-                (response,cb) => {
+                (environment,cb) => {
+                    const basePath = environment.basePath;
                     var requestSettings = {
                         method: 'POST',
-                        url: `http://localhost:4415/apiv2/servers/${intServer}/deploy`,
+                        url: `${basePath}servers/${intServer}/deploy`,
                         body: file,
                         encoding: null,
                         headers: {'Content-Type': 'application/json'}
                     }
+                    console.log('URL:',requestSettings.url);
                     request(requestSettings, (err, res, start) => {
                         console.log('Status code:',res.statusCode)
                         err = res.statusCode < 400 ? null : res;
-                        if(!err) cb(null,res);
-                        else cb(err,res);
+                        if(!err) cb(null,environment);//Sucesso, a enviromnent é passada adiante;
+                        else cb(err,null);//Contem erros, a status response não é a esperada;
                     })
                 }
             )
@@ -507,7 +509,14 @@ module.exports.deploy = (servers, file) => {
     )
     return new Promise((resolve, reject) => {
         async.waterfall(
-            [(cb)=>{cb(null,null)},
+            [
+            (cb) => {
+                EnvironmentSchema.findById(id, (err, environment) => {
+
+                    if(!err) cb(null, environment);
+                    else cb(err);
+                })
+            },
             deploymentsCalls,
             (response,cb) => {resolve({data: 'ok',lastResponse: response})}
             ].flat()
