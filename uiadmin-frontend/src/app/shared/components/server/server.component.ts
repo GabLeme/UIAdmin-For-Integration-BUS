@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ConfigComponent } from 'src/app/modules/environment/pages/config/config.component';
 import { ApisService } from 'src/app/core/apis.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { SocketService } from 'src/app/core/socket.service';
 
 @Component({
   selector: 'app-server',
@@ -20,10 +21,16 @@ export class ServerComponent implements OnInit {
     private apisService: ApisService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private configComponent: ConfigComponent
+    private configComponent: ConfigComponent,
+    private socketService: SocketService
     ) { }
 
   ngOnInit() {
+
+    this.socketService.listen('HealthCheck').subscribe((r) => {
+      console.log(r)
+    })
+
     this.activatedRoute.params.subscribe((params) => {
       this.environmentId = params['id'];
     })
