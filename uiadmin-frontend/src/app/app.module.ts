@@ -18,6 +18,7 @@ import { UsersComponent } from './modules/environment/pages/users/users.componen
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from './shared/_modal';
 import { EnvironmentsListComponent } from './modules/environment/pages/environments-list/environments-list.component';
+import { NgxGaugeModule } from 'ngx-gauge';
 @NgModule({
   declarations: [
     AppComponent,

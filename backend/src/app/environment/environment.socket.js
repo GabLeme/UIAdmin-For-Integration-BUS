@@ -27,13 +27,32 @@ module.exports.machineHealthCheck = (environmentId, socket) => {
 
             const command = "top -b -n1 | grep Cpu | sed -r 's@.+:\s([0-9\.]+).+@\1@' && top -b -n1 | grep Mem | sed -r 's@.+:\s([0-9\.]+).+@\1@'";
 
+            //windows cpu @for /f "skip=1" %p in ('wmic cpu get loadpercentage') do @echo %p%
+            //windows memory | wmic OS get FreePhysicalMemory | wmic ComputerSystem get TotalPhysicalMemory
+
             ssh.exec(command, {
                 out: (stdout) => {
-                    console.log("Sucess CMD", stdout)
-                    socket.emit('HealthCheck', {data: stdout, error: false})
+                    let commandResult = '';
+                    let type = '';
+                    if(stdout.includes('Cpu')){
+                        type = 'cpu';
+                        commandResult = stdout.split(',')[0].split(':')[1].split('us')[0];
+                    }
+                    else if(stdout.includes('Mem')) {
+                        type = 'mem';
+                        // console.log(stdout)
+                        const memTotal = stdout.split(',')[0].split(':')[1].split('total')[0];
+                        const memUsed = stdout.split(',')[2].split('used')[0];
+                        // console.log("/*Memoria Total*/")
+                        // console.log(memTotal)
+                        // console.log("/*Memoria Usada*/")
+                        // console.log(memUsed)
+                        commandResult = (Number(memUsed) / Number(memTotal)) * 100;
+                    }
+                    socket.emit('HealthCheck', {data: Number(commandResult), error: false, type})
                 },
                 err: (err) => {
-                    socket.emit('HealthCheck', {data: stdout, error: true})
+                    socket.emit('HealthCheck', {data: err, error: true})
                 }
             })
             .start();

@@ -27,6 +27,7 @@
     "bootstrap": "^4.4.1",
     "hammerjs": "^2.0.8",
     "jquery": "^3.4.1",
+    "ngx-gauge": "^1.1.0",
     "popper.js": "^1.16.1",
     "rxjs": "~6.4.0",
     "socket.io-client": "^2.3.0",

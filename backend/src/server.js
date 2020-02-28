@@ -10,7 +10,7 @@ const environmentJobs       = require('./app/environment/environment.socket');
 
 Socket.on('connection', (socket) => {
     console.log('Client Connected')
-    cron.schedule('*/5 * * * * *', () => {
+    cron.schedule('*/2 * * * * *', () => {
       console.log("HealthCheck Init")
       environmentJobs.machineHealthCheck('5e4afedb4f65a024044a6894', socket);
     });

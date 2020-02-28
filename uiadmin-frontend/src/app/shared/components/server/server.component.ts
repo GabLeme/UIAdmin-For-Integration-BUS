@@ -26,11 +26,6 @@ export class ServerComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-
-    this.socketService.listen('HealthCheck').subscribe((r) => {
-      console.log(r)
-    })
-
     this.activatedRoute.params.subscribe((params) => {
       this.environmentId = params['id'];
     })
