@@ -19,6 +19,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from './shared/_modal';
 import { EnvironmentsListComponent } from './modules/environment/pages/environments-list/environments-list.component';
 import { NgxGaugeModule } from 'ngx-gauge';
+import { ServerSelectionComponent } from './shared/components/server-selection/server-selection.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,6 +30,7 @@ import { NgxGaugeModule } from 'ngx-gauge';
     ApisComponent,
     UsersComponent,
     EnvironmentsListComponent,
+    ServerSelectionComponent,
   ],
   imports: [
     BrowserModule,

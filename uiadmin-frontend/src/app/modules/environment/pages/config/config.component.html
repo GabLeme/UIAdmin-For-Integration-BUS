@@ -25,12 +25,13 @@
 
 <div class="row mt-2">
     <div class="col-sm text-left">
-        <button type="button" class="btn btn-secondary btn-sm" (click)="openModal('add-server-modal')">Criar
-            Servidor</button>
+        <button type="button" class="btn btn-secondary btn-sm" (click)="openModal('add-server-modal')">Criar Servidor</button>
+        <button type="button" class="btn btn-primary btn-sm" (click)="openModal('deploy-bar-modal')">Realizar deploy</button>
     </div>
 </div>
 
 <!-- servers area -->
+
 <div class="row mt-3">
     <div class="col-sm-3 mt-2" *ngFor="let s of servers">
         <app-server [name]="s.name" [processId]="s.active.processId" [status]="s.active.isRunning">
@@ -38,13 +39,34 @@
     </div>
 </div>
 
+<jw-modal id="deploy-bar-modal">
+  <button type="button" class="btn btn-success btn-sm" (click)="handleDeploy()">Selecionar Arquivo <input type="file" id="inputBar" #fileUpload multiple="multiple" accept=".bar" style="display:none;"/></button>
+  <app-server-selection
+    [integration_servers_disponiveis]="servers"
+    (integration_servers_selecionados) = "setSelectedIntegrationArray($event)"
+  ></app-server-selection>
+  <div *ngIf="selected_files_info">
+    <b>Arquivos Selecionados</b>
+    <div *ngFor="let file of selected_files_info">
+      <b>Nome:</b>{{file.name}}
+      <b>Tamanho:</b>{{file.size}}
+      <b>Data Hora:</b>{{file.datetime}}
+    </div>
+  </div>
+  <div *ngIf="deployment_log">
+    <b>Log</b>
+    {{deployment_log}}
+  </div>
+
+
+</jw-modal>
 
 
 <jw-modal id="add-server-modal">
     <form>
         <div class="form-group">
             <label for="exampleInputEmail1">Server Name</label>
-            <input type="text" class="form-control" 
+            <input type="text" class="form-control"
             [(ngModel)]="serverName"
             name="server"
             id="exampleInputEmail1" aria-describedby="emailHelp"
@@ -60,7 +82,7 @@
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Debug Port</label>
-            <input type="number" 
+            <input type="number"
             [(ngModel)]="debugPort"
             name="server"
             class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"

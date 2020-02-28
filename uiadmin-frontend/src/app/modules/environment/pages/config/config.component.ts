@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild, ElementRef} from '@angular/core';
 import { ApisService } from 'src/app/core/apis.service';
 import { ActivatedRoute } from '@angular/router';
 import { ModalService } from 'src/app/shared/_modal';
@@ -85,4 +85,41 @@ export class ConfigComponent implements OnInit {
     })
   }
 
+
+  @ViewChild('fileUpload', { static: false }) fileUpload: ElementRef;
+  deployment_log;
+  selected_files_info: any[] = [];
+  selectedIntegrationServers;
+
+  public handleDeploy() {
+    // alert(!this.selectedIntegrationServers);
+    if(this.selectedIntegrationServers == undefined || this.selectedIntegrationServers.length == 0){
+      alert('Não há servidores para realizar deploy! 😬');
+    }
+    else{
+      const fileUpload = this.fileUpload.nativeElement;
+      fileUpload.click();
+      fileUpload.onchange = () => {
+        for (const file of fileUpload.files) {
+          this.selected_files_info.push({ name:file.name,size:file.size,datetime:new Date()});
+          //TODO: germano
+          this.apisService.deployBarFile(this.env_id,file,JSON.stringify(this.selectedIntegrationServers))
+          .subscribe(
+            (result) => {
+              this.deployment_log = JSON.stringify(result);
+          },
+            (err) => {
+              this.deployment_log = JSON.stringify(err);
+            }
+          )
+        }
+      };
+      this.fileUpload.nativeElement.value = '';
+    }
+  }
+
+  setSelectedIntegrationArray(selectedIntServers){
+    console.log(selectedIntServers)
+    this.selectedIntegrationServers = selectedIntServers;
+  }
 }
